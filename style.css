@@ -1,0 +1,71 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f0f0f0;
+  text-align: center;
+  padding: 20px;
+}
+
+#search-bar {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid #333;
+  border-radius: 5px;
+}
+
+#song-list {
+  margin: auto;
+  width: 80%;
+  list-style: none;
+  padding: 0;
+}
+
+#song-list div {
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#song-list div:hover {
+  background-color: #e0e0e0;
+}
+
+audio {
+  width: 80%;
+  margin-top: 20px;
+}
+
+/* ... existing styles ... */
+
+/* Theme toggle button */
+#theme-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 5px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: 2px solid #333;
+}
+
+/* Night mode styles */
+body.night-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+body.night-mode #search-bar,
+body.night-mode #song-list div {
+  background-color: #555;
+  color: #fff;
+  border-color: #777;
+}
+
+body.night-mode #theme-toggle {
+  background-color: #555;
+  color: #fff;
+}
