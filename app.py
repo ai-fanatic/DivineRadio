@@ -43,5 +43,9 @@ def contact():
 def feedback():
     return render_template('feedback.html')
 
+@app.route('/acknowledgements')
+def acknowledgements():
+    return render_template('acknowledgements.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

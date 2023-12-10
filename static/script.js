@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     songList.innerHTML = "";
     songs.forEach((song) => {
       const songDiv = document.createElement("div");
-      songDiv.textContent = song.name;
+      songDiv.textContent = formatSongName(song.name);
       songDiv.onclick = () => {
         playSong(song.download_url);
         showPDF(song.pdf_url); // Display the PDF when the song is clicked
@@ -25,6 +25,22 @@ document.addEventListener("DOMContentLoaded", function () {
       songList.appendChild(songDiv);
     });
   }
+
+  function formatSongName(songName) {
+    // Remove the '.mp3' extension
+    let formattedName = songName.replace(".mp3", "");
+
+    // Find the index of the '-' symbol
+    const dashIndex = formattedName.indexOf("-");
+
+    // Remove the part before '-' and the '-' symbol itself
+    if (dashIndex !== -1) {
+      formattedName = formattedName.substring(dashIndex + 1).trim();
+    }
+
+    return formattedName;
+  }
+
   function showPDF(pdfUrl) {
     window.open(pdfUrl, "_blank"); // Opens PDF in a new tab
   }
