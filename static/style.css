@@ -22,7 +22,7 @@ body {
 }
 
 #song-list div {
-  background-color: #fff;
+  background-color: #d35b5b;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
@@ -30,7 +30,7 @@ body {
 }
 
 #song-list div:hover {
-  background-color: #e0e0e0;
+  background-color: #e9a5a5;
 }
 
 audio {

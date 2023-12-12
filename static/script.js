@@ -5,12 +5,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const pdfViewer = document.getElementById("pdf-viewer"); // Assuming you have an iframe with this ID
 
   // Fetch and display songs
+  // Fetch and display songs on page load
+  fetchSongs();
+
+  // Search functionality
+  searchBar.addEventListener("input", function () {
+    filterSongs(searchBar.value.toLowerCase());
+  });
+
   function fetchSongs() {
-    fetch("/api/songs")
+    fetch("https://api.github.com/repos/ai-fanatic/DivineRadio/contents/Audio")
       .then((response) => response.json())
-      .then((songs) => {
-        displaySongs(songs);
-      });
+      .then((data) => {
+        const mp3Files = data.filter((file) => file.name.endsWith(".mp3"));
+        displaySongs(mp3Files);
+      })
+      .catch((error) => console.error("Error:", error));
   }
 
   function displaySongs(songs) {
@@ -20,34 +30,27 @@ document.addEventListener("DOMContentLoaded", function () {
       songDiv.textContent = formatSongName(song.name);
       songDiv.onclick = () => {
         playSong(song.download_url);
-        showPDF(song.pdf_url); // Display the PDF when the song is clicked
+        // Construct the correct PDF URL
+        const pdfUrl = `https://raw.githubusercontent.com/ai-fanatic/DivineRadio/main/PDF/${song.name.replace(
+          ".mp3",
+          ".pdf"
+        )}`;
+        showPDF(pdfUrl);
       };
       songList.appendChild(songDiv);
+      //console.log("songList:", songList);
     });
   }
 
   function formatSongName(songName) {
-    // Remove the '.mp3' extension
     let formattedName = songName.replace(".mp3", "");
-
-    // Find the index of the '-' symbol
     const dashIndex = formattedName.indexOf("-");
-
-    // Remove the part before '-' and the '-' symbol itself
     if (dashIndex !== -1) {
       formattedName = formattedName.substring(dashIndex + 1).trim();
     }
-
     return formattedName;
   }
 
-  function showPDF(pdfUrl) {
-    window.open(pdfUrl, "_blank"); // Opens PDF in a new tab
-  }
-  function playSong(url) {
-    audioPlayer.src = url;
-    audioPlayer.play();
-  }
   function showPDF(pdfUrl) {
     const viewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
       pdfUrl
@@ -55,19 +58,24 @@ document.addEventListener("DOMContentLoaded", function () {
     pdfViewer.src = viewerUrl;
     pdfViewer.style.display = "block";
   }
-  // Search functionality
-  searchBar.addEventListener("input", function () {
-    const searchTerm = searchBar.value.toLowerCase();
-    const songs = document.querySelectorAll("#song-list div");
-    songs.forEach((song) => {
-      const songName = song.textContent.toLowerCase();
-      song.style.display = songName.includes(searchTerm) ? "" : "none";
-    });
-  });
 
-  fetchSongs();
+  function playSong(url) {
+    audioPlayer.src = url;
+    audioPlayer.load();
+    audioPlayer.oncanplaythrough = function () {
+      audioPlayer.play();
+    };
+  }
+
+  // Search functionality
+  function filterSongs(searchTerm) {
+    const songs = document.querySelectorAll("#song-list div");
+    songs.forEach((songDiv) => {
+      const songName = songDiv.textContent.toLowerCase();
+      songDiv.style.display = songName.includes(searchTerm) ? "" : "none";
+    });
+  }
 });
-// ... existing JavaScript code ...
 
 function toggleTheme() {
   const body = document.body;
@@ -80,5 +88,3 @@ function toggleTheme() {
     themeIcon.textContent = "🌞";
   }
 }
-
-// ... existing JavaScript code ...
