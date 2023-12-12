@@ -120,7 +120,7 @@ nav li a:hover {
 
 #page-title {
   font-weight: bold;
-  color: rgb(197, 223, 53);
+  color: rgb(59, 59, 11);
   text-align: center;
   font-family: "Playfair Display", calibri; /* Example of a royal-looking font */
   /* Additional styling */
@@ -265,4 +265,14 @@ body {
 
 .suggestion-bubble p {
   margin-bottom: 0;
+}
+
+body.night-mode {
+  background-color: #333;
+  color: #fff;
+  /* ... other night mode styles ... */
+}
+
+body.night-mode #page-title {
+  color: #fff; /* or any color suitable for night mode */
 }
